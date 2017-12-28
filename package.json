@@ -18,6 +18,7 @@
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
+    "@storybook/vue": "^3.3.2",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
