@@ -1,9 +1,38 @@
 import { mount } from 'vue-test-utils'
 import Badge from '../index'
-import EmojiBadge from '../EmojiBadge.vue'
 import TextBadge from '../TextBadge.vue'
 
 describe('Badge', () => {
+  const createBadge = function (badgeProp) {
+    return mount(Badge, {
+      context: {
+        props: {
+          badge: badgeProp
+        }
+      }
+    })
+  }
+
+  test('render text-badge when badge type is text', () => {
+    const textBadgeProp = {
+      body: 'Hello World',
+      type: 'text',
+      backgroundColor: '#ddd',
+      color: '#fff'
+    }
+    const wrapper = createBadge(textBadgeProp)
+    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.contains('.text-badge-wrapper')).toBe(true)
+  })
+  test('render emoji-badge when badge type is emoji', () => {
+    const emojiBadgeProp = {
+      body: ':santa:',
+      type: 'emoji'
+    }
+    const wrapper = createBadge(emojiBadgeProp)
+    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.contains('.emoji-badge')).toBe(true)
+  })
 })
 
 describe('Text Badge', () => {
@@ -22,12 +51,12 @@ describe('Text Badge', () => {
   })
 
   test('must have one badge prop', () => {
-    const wrapper = mount(TextBadge)
-    const badge = wrapper.vm.$options.props.badge
-    // TODO: spy 방법을 찾아야함
-    expect(spy).toBeCalledWith(expect.stringContaining('[Vue warn]: Missing required prop'))
-    expect(badge.required).toBeTruthy()
-    expect(badge.type).toBe(Object)
+    // const wrapper = mount(TextBadge)
+    // const badge = wrapper.vm.$options.props.badge
+    // // TODO: spy 방법을 찾아야함
+    // expect(spy).toBeCalledWith(expect.stringContaining('[Vue warn]: Missing required prop'))
+    // expect(badge.required).toBeTruthy()
+    // expect(badge.type).toBe(Object)
   })
 
   test('badge must have type and body', () => {
@@ -60,7 +89,4 @@ describe('Text Badge', () => {
     expect(wrapper.contains('span.text-badge')).toBe(true)
     expect(wrapper.text()).toBe(dummyTextBadge.body)
   })
-})
-
-describe('Emoji Badge', () => {
 })
