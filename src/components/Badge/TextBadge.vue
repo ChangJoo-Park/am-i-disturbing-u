@@ -1,5 +1,5 @@
 <template>
-  <div class="text-badge-wrapper" v-if="badge" :style="badgeStyles">
+  <div class="badge text-badge-wrapper" v-if="badge" :style="badgeStyles">
     <span class="text-badge">
       {{ badge.body }}
     </span>
