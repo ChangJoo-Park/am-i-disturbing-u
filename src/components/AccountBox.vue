@@ -23,7 +23,7 @@ export default {
       actions: [
         {
           name: 'Edit',
-          action: () => {
+          onClick: () => {
             window.alert('hello')
           }
         }
