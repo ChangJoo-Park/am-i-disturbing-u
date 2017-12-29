@@ -1,20 +1,29 @@
 <template>
-  <div>
-    <badge-box title='My Badges' :actions="myBadgeActions"/>
-    <badge-box title='Team Badges' />
-    <!-- Status -->
-    <status-box />
+  <div class="sidebar-wrapper">
+    <div class="sidebar-boxes">
+      <badge-box title='My Badges' :actions="myBadgeActions"/>
+      <badge-box title='Team Badges' />
+      <!-- Status -->
+      <status-box />
+      <!-- Account Box -->
+      <account-box />
+    </div>
+    <div class="sidebar-logout">
+      <button class="sidebar-logout-button">Logout</button>
+    </div>
   </div>
 </template>
 
 <script>
 import BadgeBox from '@/components/BadgeBox'
 import StatusBox from '@/components/StatusBox'
+import AccountBox from '@/components/AccountBox'
 
 export default {
   components: {
     BadgeBox,
-    StatusBox
+    StatusBox,
+    AccountBox
   },
   data: function () {
     const myBadgeActions = [
@@ -45,5 +54,22 @@ export default {
 </script>
 
 <style lang="scss">
+.sidebar-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
 
+.sidebar-boxes {
+  flex: 1;
+}
+.sidebar-logout {
+  flex: 0;
+}
+.sidebar-logout-button {
+  width: 100%;
+}
 </style>
