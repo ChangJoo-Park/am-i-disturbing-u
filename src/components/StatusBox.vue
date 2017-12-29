@@ -23,11 +23,10 @@
 
 <script>
 import FormBoxLayout from '../layouts/FormBox'
-import BadgeRow from './BadgeRow.vue'
 
 export default {
   components: {
-    'form-box': FormBoxLayout,
+    'form-box': FormBoxLayout
   }
 }
 </script>
