@@ -30,6 +30,7 @@ export default {
   flex-direction: row;
   max-width: 100%;
   flex-wrap: wrap;
+  align-content: center;
 }
 
 .badge-row-sidescroll {
