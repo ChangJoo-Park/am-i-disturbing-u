@@ -16,3 +16,4 @@ selenium-debug.log
 *.njsproj
 *.sln
 static/emoji-sheet.png
+env.json
