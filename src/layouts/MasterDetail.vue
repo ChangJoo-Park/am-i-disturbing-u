@@ -69,6 +69,7 @@ export default {
       flex: 1;
       order: 2;
       padding: 10px;
+      overflow: auto;
     }
   }
 
