@@ -48,7 +48,7 @@ export default {
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 
   .form-box-header {
     border-bottom: 1px solid black;
