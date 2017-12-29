@@ -25,7 +25,7 @@ export default {
       type: Object,
       required: true,
       validator: (value) => {
-        return value.badge && badgeTypes.includes(value.type)
+        return badgeTypes.includes(value.type)
       }
     }
   }
