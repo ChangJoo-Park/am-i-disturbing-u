@@ -12,6 +12,16 @@
         <text-badge :badge="secondText"/>
       </div>
     </div>
+    <div>
+      <h1>Badge Row</h1>
+      <badge-row :badges="badges"/>
+    </div>
+    <div>
+      <h1>Side Scrolling Badge Row</h1>
+      <div style="width: 400px; overflow: hidden;">
+        <badge-row :badges="badges" sidescroll />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -19,12 +29,14 @@
 import Badge from '../src/components/Badge/index.js'
 import TextBadge from '../src/components/Badge/TextBadge.vue'
 import EmojiBadge from '../src/components/Badge/EmojiBadge.vue'
+import BadgeRow from '../src/components/BadgeRow.vue'
 
 export default {
   components: {
     TextBadge,
     EmojiBadge,
-    Badge
+    Badge,
+    BadgeRow
   },
   data: function () {
     return {
@@ -44,6 +56,11 @@ export default {
         body: ':santa:',
         type: 'emoji'
       }
+    }
+  },
+  computed: {
+    badges: function () {
+      return [ this.text, this.secondText, this.emoji, this.text, this.secondText, this.emoji, this.text, this.secondText, this.emoji, this.text, this.secondText, this.emoji,]
     }
   }
 }
