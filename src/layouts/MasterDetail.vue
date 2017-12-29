@@ -30,7 +30,7 @@
       <main>
         <slot/>
       </main>
-    </section>
+    </div>
   </div>
 </template>
 
