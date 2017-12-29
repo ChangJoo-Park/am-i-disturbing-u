@@ -57,6 +57,9 @@ export default {
     .sidebar {
       order: 1;
       width: 30%;
+      min-width: 200px;
+      height: 100%;
+      overflow: hidden;
       border-right: 1px solid black;
       margin: 0;
       padding: 0;
