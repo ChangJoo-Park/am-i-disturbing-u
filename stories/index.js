@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/vue'
 import AvatarStory from './AvatarStory.vue'
 import BadgeStory from './BadgeStory.vue'
 import LayoutStory from './LayoutStory.vue'
+import BadgeBoxStory from './BadgeBoxStory.vue'
 
 storiesOf('Avatar', module)
   .add('기본 사용', () => ({
@@ -14,6 +15,12 @@ storiesOf('Badge', module)
   .add('기본 사용', () => ({
     components: { BadgeStory },
     template: '<badge-story />'
+  }))
+
+storiesOf('BadgeForm', module)
+  .add('기본 사용', () => ({
+    components: { BadgeBoxStory },
+    template: '<badge-box-story />'
   }))
 
 storiesOf('Layout', module)
