@@ -11,7 +11,7 @@ export default {
   props: {
     badges: {
       type: Array,
-      default: []
+      default: () => []
     },
     sidescroll: {
       type: Boolean,
