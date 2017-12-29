@@ -68,6 +68,7 @@ export default {
 }
 .sidebar-logout {
   flex: 0;
+  margin-bottom: 5px;
 }
 .sidebar-logout-button {
   width: 100%;
