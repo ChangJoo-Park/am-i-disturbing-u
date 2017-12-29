@@ -2,15 +2,19 @@
   <div>
     <badge-box title='My Badges' :actions="myBadgeActions"/>
     <badge-box title='Team Badges' />
+    <!-- Status -->
+    <status-box />
   </div>
 </template>
 
 <script>
 import BadgeBox from '@/components/BadgeBox'
+import StatusBox from '@/components/StatusBox'
 
 export default {
   components: {
-    BadgeBox
+    BadgeBox,
+    StatusBox
   },
   data: function () {
     const myBadgeActions = [
@@ -40,5 +44,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
 </style>
