@@ -9,7 +9,7 @@
       <account-box />
     </div>
     <div class="sidebar-logout">
-      <button class="sidebar-logout-button">Logout</button>
+      <button class="sidebar-logout-button" @click="onClickSignOut">Logout</button>
     </div>
   </div>
 </template>
@@ -18,6 +18,7 @@
 import BadgeBox from '@/components/BadgeBox'
 import StatusBox from '@/components/StatusBox'
 import AccountBox from '@/components/AccountBox'
+import { auth } from 'firebase'
 
 export default {
   components: {
@@ -47,8 +48,16 @@ export default {
     },
     openTextModal: function () {
       window.alert('Text Modal')
-    }
+    },
     // Methods for Team Badge
+    // SignOut
+    async onClickSignOut () {
+      const isSignOut = window.confirm('로그아웃 하시겠습니까?')
+      if (isSignOut) {
+        await auth().signOut()
+        this.$router.replace({ name: 'login-page' })
+      }
+    }
   }
 }
 </script>

@@ -5,7 +5,8 @@ import axios from 'axios'
 import VueFire from 'vuefire'
 import App from './App'
 import router from './router'
-import './store'
+import './firebase'
+import store from './store'
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
@@ -15,6 +16,7 @@ Vue.use(VueFire)
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })
