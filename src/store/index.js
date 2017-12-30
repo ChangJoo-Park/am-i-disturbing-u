@@ -1,11 +1,11 @@
-import { initializeApp } from 'firebase'
-import firebaseConfig from '../../env.json'
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-const app = initializeApp(firebaseConfig)
+import modules from './modules'
 
-export const db = app.database()
-export const teamsRef = db.ref('teams')
-export const usersRef = db.ref('users')
-export const badgesRef = db.ref('badges')
-export const pingsRef = db.ref('pings')
-export const logsRef = db.ref('logs')
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  modules,
+  strict: process.env.NODE_ENV !== 'production'
+})
