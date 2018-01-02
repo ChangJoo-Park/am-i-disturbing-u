@@ -1,10 +1,14 @@
 <template>
-  <layout>
+  <layout v-if="loadedTeam">
     <navigation slot="navigation" />
     <sidebar
       slot="sidebar"
+      :user="user"
     />
-    <h1>This is Main Page!</h1>
+    <div>
+      {{ loadedTeam.name }}
+      <member-row v-for="(member, index) in teamMembers" :key="index" :member="member" />
+    </div>
   </layout>
 </template>
 
@@ -12,32 +16,30 @@
 import MasterDetailLayout from '@/layouts/MasterDetail'
 import Sidebar from '@/components/Sidebar'
 import Navigation from '@/components/Navigation'
-import { auth } from 'firebase'
-import { badgesRef } from '../firebase'
+import MemberRow from '@/components/MemberRow'
+import { mapGetters } from 'vuex'
 
 export default {
   beforeRouteEnter (to, from, next) {
-    auth().onAuthStateChanged(user => {
-      if (user) {
-        next(vm => { vm.user = user })
-      } else {
-        next({ name: 'login-page' })
-      }
+    next(async (vm) => {
+      await vm.$store.dispatch('autoSignIn')
     })
-  },
-  data () {
-    return {
-      user: null,
-      newBadge: ''
-    }
-  },
-  firebase: {
-    badges: badgesRef
   },
   components: {
     layout: MasterDetailLayout,
     Sidebar,
-    Navigation
+    Navigation,
+    MemberRow
+  },
+  data () {
+    return {
+      user: null,
+      newBadge: '',
+      team: null
+    }
+  },
+  computed: {
+    ...mapGetters(['loadedTeam', 'loading', 'teamMembers'])
   }
 }
 </script>

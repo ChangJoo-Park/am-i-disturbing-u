@@ -25,6 +25,11 @@
 import FormBoxLayout from '../layouts/FormBox'
 
 export default {
+  props: {
+    user: {
+      type: Object
+    }
+  },
   components: {
     'form-box': FormBoxLayout
   }
