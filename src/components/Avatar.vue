@@ -1,10 +1,11 @@
 <template>
   <div class="avatar" :class="avatarClass">
-    <img :src="img" class="avatar-image">
+    <img :src="gravatarImage" class="avatar-image">
   </div>
 </template>
 
 <script>
+import gravatar from 'gravatar'
 export default {
   props: {
     img: {
@@ -23,6 +24,9 @@ export default {
     }
   },
   computed: {
+    gravatarImage () {
+      return gravatar.url(this.img, { protocol: 'http', s: '100' });
+    },
     avatarClass: function () {
       return `avatar-${this.size}`
     }
