@@ -59,7 +59,7 @@
         <legend>User Info</legend>
         <fieldset>
           <div>
-            <input type="text" placeholder="Real Name" v-model="signUpData.account.displayName">
+            <input type="text" placeholder="Real Name" v-model="signUpData.account.username">
           </div>
           <div>
             <input type="email" placeholder="Email" v-model="signUpData.account.email">
@@ -95,9 +95,6 @@
 </template>
 
 <script>
-import { auth } from 'firebase'
-import { badgesRef, teamsRef, usersRef } from '@/firebase'
-
 const PAGE_TYPE = {
   JOIN_OR_CREATE: 'JOIN_OR_CREATE',
   JOIN_A_TEAM: 'JOIN_A_TEAM',
@@ -118,7 +115,7 @@ export default {
           inviteCode: ''
         },
         account: {
-          displayName: '',
+          username: '',
           email: '',
           password: ''
         }
@@ -144,37 +141,28 @@ export default {
       this.signUpData.isTeamChecked = true
     },
     async onSubmitUser () {
+      console.log(this.signUpData)
       try {
-        const { email, password, displayName } = this.signUpData.account
-        await auth().createUserWithEmailAndPassword(email, password)
-        const newTeamKey = teamsRef.push().key
-        const newUserKey = usersRef.push().key
-        let userUpdate = {}
-        userUpdate[newUserKey] = {
-          email,
-          name: displayName,
-          team: newTeamKey,
-          isRemote: false,
-          isDoNotDisturb: false,
-          nextIn: '',
-          nextOut: '',
-          badges: [],
-          pings: []
-        }
-        await usersRef.update(userUpdate)
-
-        let teamUpdate = {}
-        const { name } = this.signUpData.team
-        teamUpdate[newTeamKey] = {
-          name,
-          owner: newUserKey,
-          members: [newUserKey],
-          badges: []
-        }
-        await teamsRef.update(teamUpdate)
+        const { data: signUpData } = await this.$http({
+          headers: { 'Access-Control-Allow-Origin': '*' },
+          method: 'POST',
+          url: '/api/register',
+          data: { ...this.signUpData.account }
+        })
+        console.log('signup result = > ', signUpData._id)
+        const teamResult = await this.$http({
+          headers: { 'Access-Control-Allow-Origin': '*' },
+          method: 'POST',
+          url: '/api/api/teams',
+          data: {
+            id: signUpData._id,
+            name: this.signUpData.team.name
+          }
+        })
+        console.log('teamResult => ', teamResult)
         this.goTo(PAGE_TYPE.DONE)
       } catch (error) {
-        console.log('Error => ', error)
+        console.log(error)
       }
     },
     goTo (nextStep) {
