@@ -1,7 +1,7 @@
 <template>
   <form-box title="Account" :actions="actions" v-if="user">
     <div class="account-wrapper">
-      <avatar />
+      <avatar :img="user.email" />
       <div class="account-info">
         <strong>{{ user.username }}</strong>
       </div>

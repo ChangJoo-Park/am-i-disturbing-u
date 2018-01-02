@@ -1,7 +1,7 @@
 <template>
   <div class="member-row" v-if="member">
     <div class="member-avatar-wrapper">
-      <avatar />
+      <avatar :img="member.email" />
     </div>
     <div class="member-info-wrapper">
       <div class="member-info">
