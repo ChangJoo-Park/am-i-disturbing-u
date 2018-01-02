@@ -1,9 +1,9 @@
 <template>
-  <form-box title="Account" :actions="actions">
+  <form-box title="Account" :actions="actions" v-if="user">
     <div class="account-wrapper">
       <avatar />
       <div class="account-info">
-        <strong>ChangJoo Park</strong>
+        <strong>{{ user.username }}</strong>
       </div>
     </div>
   </form-box>
@@ -14,6 +14,11 @@ import FormBoxLayout from '../layouts/FormBox'
 import Avatar from '../components/Avatar'
 
 export default {
+  props: {
+    user: {
+      type: Object
+    }
+  },
   components: {
     'form-box': FormBoxLayout,
     Avatar
