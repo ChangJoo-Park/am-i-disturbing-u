@@ -1,14 +1,14 @@
 <template>
-  <div class="member-row">
+  <div class="member-row" v-if="member">
     <div class="member-avatar-wrapper">
       <avatar />
     </div>
     <div class="member-info-wrapper">
       <div class="member-info">
-        <div>ChangJoo Park</div>
-        <div>some title</div>
+        <div>{{ member.name }}</div>
+        <div>{{ member.title }}</div>
       </div>
-      <badge-row :badges="badges" />
+      <badge-row :badges="member.badges" />
     </div>
     <div class="member-row-action">
       <button>Ping</button>
@@ -21,6 +21,11 @@ import Avatar from '@/components/Avatar'
 import BadgeRow from '@/components/BadgeRow'
 
 export default {
+  props: {
+    member: {
+      type: Object
+    }
+  },
   components: {
     Avatar,
     BadgeRow
