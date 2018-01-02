@@ -18,6 +18,7 @@
     "axios": "^0.17.1",
     "emoji-mart-vue": "^1.0.4",
     "firebase": "^4.8.1",
+    "js-cookie": "^2.2.0",
     "vue": "^2.5.13",
     "vue-router": "^3.0.1",
     "vuefire": "^1.4.5",
