@@ -5,7 +5,7 @@
     </div>
     <div class="member-info-wrapper">
       <div class="member-info">
-        <div>{{ member.name }}</div>
+        <div>{{ member.username }}</div>
         <div>{{ member.title }}</div>
       </div>
       <badge-row :badges="member.badges" />
