@@ -5,7 +5,6 @@ import axios from 'axios'
 import VueFire from 'vuefire'
 import App from './App'
 import router from './router'
-import './firebase'
 import store from './store'
 
 Vue.prototype.$http = axios
