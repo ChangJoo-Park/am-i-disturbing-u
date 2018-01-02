@@ -1,7 +1,7 @@
 <template>
   <div class="navigation">
     <div class="logo-wrapper">
-      <img src="https://www.google.co.kr/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" class="logo" width="100px">
+      <a href="/app" class="team-logo">{{ loadedTeam.name }}</a>
     </div>
     <div class="navigation-actions-wrapper">
       <div class="navigation-action-search">
@@ -15,8 +15,12 @@
 </template>
 
 <script>
-export default {
+import { mapGetters } from 'vuex'
 
+export default {
+  computed: {
+    ...mapGetters(['loadedTeam'])
+  }
 }
 </script>
 
@@ -37,6 +41,13 @@ export default {
   margin-left: 20px;
   align-content: center;
   align-items: center;
+
+  .team-logo {
+    font-size: 18px;
+    text-decoration: none;
+    color: #000;
+    font-weight:bold;
+  }
 
   .logo {
     flex: 1;
