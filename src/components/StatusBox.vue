@@ -3,19 +3,19 @@
     <ul class="status-list">
       <li class="status-item">
         <span class="status-item-label">Next In</span>
-        <div>O</div>
+        <div>{{ user.nextIn }}</div>
       </li>
       <li class="status-item">
         <span class="status-item-label">Next Out</span>
-        <div>O</div>
+        <div>{{ user.nextOut }}</div>
       </li>
       <li class="status-item">
         <span class="status-item-label">Remote</span>
-        <div>O</div>
+        <div>{{ user.isRemote }}</div>
       </li>
       <li class="status-item">
         <span class="status-item-label">Do not disturb</span>
-        <div>O</div>
+        <div>{{ user.isDoNotDisturb }}</div>
       </li>
     </ul>
   </form-box>
