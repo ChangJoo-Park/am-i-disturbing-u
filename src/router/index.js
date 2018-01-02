@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import AuthGuard from './auth-guard'
+
 const LoginPage = () => import(/* webpackChunkName: "auth" */ '@/pages/Login')
 const SignUpPage = () => import(/* webpackChunkName: "auth" */ '@/pages/SignUp')
 const NotFoundPage = () => import(/* webpackChunkName: "not-found" */ '@/pages/NotFound')
@@ -25,12 +27,14 @@ export default new Router({
     {
       path: '/admin',
       name: 'admin-page',
-      component: AdminPage
+      component: AdminPage,
+      beforeEnter: AuthGuard
     },
     {
       path: '/app',
       name: 'main-page',
-      component: MainPage
+      component: MainPage,
+      beforeEnter: AuthGuard
     },
     {
       path: '/team-settings',
