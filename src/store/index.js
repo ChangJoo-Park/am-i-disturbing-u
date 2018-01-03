@@ -10,7 +10,9 @@ const types = {
   JOIN_TEAM: 'JOIN_TEAM',
   SET_USER: 'SET_USER',
   SET_LOADING: 'SET_LOADING',
-  SET_MEMBERS: 'SET_MEMBERS'
+  SET_MEMBERS: 'SET_MEMBERS',
+  SET_USER_REMOTE: 'SET_USER_REMOTE',
+  SET_USER_DISTURB: 'SET_USER_DISTURB'
 }
 
 const getHeader = () => {
@@ -33,6 +35,12 @@ export default new Vuex.Store({
     },
     [types.SET_USER] (state, user) {
       state.user = user
+    },
+    [types.SET_USER_REMOTE] (state, remote) {
+      state.user.isRemote = remote
+    },
+    [types.SET_USER_DISTURB] (state, disturb) {
+      state.user.isDoNotDisturb = disturb
     }
   },
   actions: {
@@ -108,6 +116,12 @@ export default new Vuex.Store({
       } catch (error) {
         console.log(error)
       }
+    },
+    async updateRemote ({ commit }, payload) {
+      commit(types.SET_USER_REMOTE, payload)
+    },
+    async updateDisturb ({ commit }, payload) {
+      commit(types.SET_USER_DISTURB, payload)
     }
   },
   getters: {
