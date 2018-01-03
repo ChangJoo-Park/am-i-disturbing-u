@@ -38,9 +38,15 @@ export default new Vuex.Store({
     },
     [types.SET_USER_REMOTE] (state, remote) {
       state.user.isRemote = remote
+      const userId = state.user._id
+      const userIndex = state.user.team.members.findIndex(m => m._id === userId)
+      state.user.team.members[userIndex].isRemote = remote
     },
     [types.SET_USER_DISTURB] (state, disturb) {
       state.user.isDoNotDisturb = disturb
+      const userId = state.user._id
+      const userIndex = state.user.team.members.findIndex(m => m._id === userId)
+      state.user.team.members[userIndex].isDoNotDisturb = disturb
     }
   },
   actions: {
