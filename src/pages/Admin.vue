@@ -45,17 +45,7 @@
 </template>
 
 <script>
-import { auth } from 'firebase'
-import { teamsRef, usersRef, badgesRef, pingsRef, logsRef } from '../firebase'
-
 export default {
-  firebase: {
-    teams: teamsRef,
-    users: usersRef,
-    badges: badgesRef,
-    pings: pingsRef,
-    logs: logsRef
-  },
   data: function () {
     return {
       newUser: {
@@ -66,64 +56,15 @@ export default {
       user: null
     }
   },
-  async created () {
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.user = user
-      } else {
-        this.user = null
-      }
-    })
-  },
-  async beforeRouteEnter (to, from, next) {
-    try {
-      auth().onAuthStateChanged((user) => {
-        if (user) {
-          next(vm => vm.setUser(user))
-        } else {
-          next({
-            name: 'login-page'
-          })
-        }
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  },
   methods: {
     setUser (user) {
       this.user = user
     },
     async onSubmitSignUp () {
-      const { email, password } = this.newUser
-      try {
-        await auth().createUserWithEmailAndPassword(email, password)
-        this.newUser.email = ''
-        this.newUser.password = ''
-      } catch (error) {
-        this.error = error.message
-        setTimeout(() => {
-          this.error = ''
-        }, 2000)
-      }
     },
     async onSubmitSignIn () {
-      const { email, password } = this.newUser
-      try {
-        await auth().setPersistence(auth.Auth.Persistence.SESSION)
-        await auth().signInWithEmailAndPassword(email, password)
-      } catch (error) {
-        this.error = error.message
-        setTimeout(() => {
-          this.error = ''
-        }, 2000)
-      }
     },
     async onSignOut () {
-      const isSignOut = window.confirm('로그아웃 하시겠습니까?')
-      if (isSignOut) {
-        await auth().signOut()
-      }
     }
   }
 }
