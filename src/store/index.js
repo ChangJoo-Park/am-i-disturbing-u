@@ -13,6 +13,12 @@ const types = {
   SET_MEMBERS: 'SET_MEMBERS'
 }
 
+const getHeader = () => {
+  const Cookie = require('js-cookie')
+  const token = Cookie.get('token')
+  return { authorization: token }
+}
+
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
@@ -76,10 +82,8 @@ export default new Vuex.Store({
       }
     },
     async autoSignIn ({ commit }) {
-      const Cookie = require('js-cookie')
-      const token = Cookie.get('token')
       try {
-        const { data } = await axios({ method: 'GET', url: '/api/me', headers: { authorization: token } })
+        const { data } = await axios({ method: 'GET', url: '/api/me', headers: getHeader() })
         commit(types.SET_USER, data)
       } catch (error) {
         console.log(error)
