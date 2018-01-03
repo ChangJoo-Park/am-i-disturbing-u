@@ -4,6 +4,7 @@ import AvatarStory from './AvatarStory.vue'
 import BadgeStory from './BadgeStory.vue'
 import LayoutStory from './LayoutStory.vue'
 import BadgeBoxStory from './BadgeBoxStory.vue'
+import SwitchStory from './SwitchStory.vue'
 
 storiesOf('Avatar', module)
   .add('기본 사용', () => ({
@@ -21,6 +22,12 @@ storiesOf('BadgeForm', module)
   .add('기본 사용', () => ({
     components: { BadgeBoxStory },
     template: '<badge-box-story />'
+  }))
+
+storiesOf('Switch', module)
+  .add('기본 사용', () => ({
+    components: { SwitchStory },
+    template: '<switch-story />'
   }))
 
 storiesOf('Layout', module)
