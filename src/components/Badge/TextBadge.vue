@@ -1,5 +1,5 @@
 <template>
-  <div class="badge text-badge-wrapper" v-if="badge" :style="badgeStyles">
+  <div class="badge text-badge-wrapper" v-if="badge" :style="badgeStyles" @click="onBadgeClicked(badge)">
     <span class="text-badge">
       {{ badge.body }}
     </span>
@@ -29,6 +29,11 @@ export default {
         backgroundColor: '#ddd',
         color: '#fff'
       }
+    }
+  },
+  methods: {
+    onBadgeClicked () {
+      this.$bus.$emit('on-badge-clicked', this.badge)
     }
   }
 }

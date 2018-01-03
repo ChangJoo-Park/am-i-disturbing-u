@@ -4,7 +4,9 @@
     :emoji="badge.body"
     set="apple"
     :backgroundImageFn="backgroundImageFn"
-    :size="24"/>
+    :size="24"
+    @click="onBadgeClicked"
+    />
 </template>
 
 <script>
@@ -27,6 +29,11 @@ export default {
   },
   components: {
     Emoji
+  },
+  methods: {
+    onBadgeClicked () {
+      this.$bus.$emit('on-badge-clicked', this.badge)
+    }
   }
 }
 </script>
