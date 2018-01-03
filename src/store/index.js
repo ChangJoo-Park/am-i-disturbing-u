@@ -97,6 +97,17 @@ export default new Vuex.Store({
     addBadgeToTeam ({ commit }, payload) {
     },
     addBadgeToUser ({ commit }, payload) {
+    },
+    async removeBadge ({ commit }, payload) {
+      try {
+        await axios({
+          method: 'DELETE',
+          url: `/api/badges/${payload._id}`,
+          headers: getHeader()
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   getters: {
