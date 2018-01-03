@@ -30,7 +30,7 @@ export default {
     Avatar,
     BadgeRow
   },
-  data: function () {
+  data () {
     return {
       badges: [
         {

@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     gravatarImage () {
-      return gravatar.url(this.img, { protocol: 'http', s: '100' });
+      return gravatar.url(this.img, { protocol: 'http', s: '100' })
     },
     avatarClass: function () {
       return `avatar-${this.size}`
