@@ -6,7 +6,6 @@
       :user="user"
     />
     <div>
-      {{ loadedTeam.name }}
       <member-row v-for="(member, index) in teamMembers" :key="index" :member="member" />
     </div>
   </layout>
