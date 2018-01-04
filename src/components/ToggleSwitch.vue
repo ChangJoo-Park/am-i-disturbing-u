@@ -34,14 +34,6 @@ export default {
   transition: all 0.2s;
   background-color: #fff;
 
-  &:hover {
-    border: 1px solid #3498db;
-    background-color: #3498db;
-    .toggle-switch-radio {
-      background-color: #fff;
-    }
-  }
-
   &.toggle-switch-on {
     border: 1px solid #2980b9;
     background-color: #2980b9;
