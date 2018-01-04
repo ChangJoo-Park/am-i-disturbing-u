@@ -1,21 +1,43 @@
 <template>
   <form-box title='Status'>
     <ul class="status-list">
-      <li class="status-item" @click="onClickNextIn">
+      <li class="status-item">
         <span class="status-item-label">Next In</span>
-        <div>{{ user.nextIn }}</div>
+        <div v-if="currentUser.nextIn" @click="isNextInTimePickerOpen = true">{{ currentUser.nextIn }}</div>
+        <div v-else @click="isNextInTimePickerOpen = true">NONE</div>
+        <dropdown v-if="isNextInTimePickerOpen" @away="isNextInTimePickerOpen = false">
+          <form @submit.prevent="onNextInTimeSubmit" class="status-time-dropdown-form">
+            <div class="status-item-dropdown-picker-wrapper">
+              <input id="time" type="time" class="status-item-dropdown-picker">
+            </div>
+            <div class="status-item-dropdown-button-wrapper">
+              <input type="submit" value="SAVE">
+            </div>
+          </form>
+        </dropdown>
       </li>
-      <li class="status-item" @click="onClickNextOut">
+      <li class="status-item">
         <span class="status-item-label">Next Out</span>
-        <div>{{ user.nextOut }}</div>
+        <div v-if="currentUser.nextOut" @click="isNextOutTimePickerOpen = true">{{ currentUser.nextOut }}</div>
+        <div v-else @click="isNextOutTimePickerOpen = true">NONE</div>
+        <dropdown v-if="isNextOutTimePickerOpen" @away="isNextOutTimePickerOpen = false">
+          <form @submit.prevent="isNextOutTimeSubmit" class="status-time-dropdown-form">
+            <div class="status-item-dropdown-picker-wrapper">
+              <input id="time" type="time" class="status-item-dropdown-picker">
+            </div>
+            <div class="status-item-dropdown-button-wrapper">
+              <input type="submit" value="SAVE">
+            </div>
+          </form>
+        </dropdown>
       </li>
       <li class="status-item">
         <span class="status-item-label">Remote</span>
-        <toggle-switch :is-on="user.isRemote" @changed="onClickRemote"/>
+        <toggle-switch :is-on="currentUser.isRemote" @changed="onClickRemote"/>
       </li>
       <li class="status-item">
         <span class="status-item-label">Do not disturb</span>
-        <toggle-switch :is-on="user.isDoNotDisturb" @changed="onClickDoNotDisturb"/>
+        <toggle-switch :is-on="currentUser.isDoNotDisturb" @changed="onClickDoNotDisturb"/>
       </li>
     </ul>
   </form-box>
@@ -24,7 +46,8 @@
 <script>
 import FormBoxLayout from '../layouts/FormBox'
 import ToggleSwitch from '@/components/ToggleSwitch'
-import { mapActions } from 'vuex'
+import Dropdown from '@/components/Dropdown'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   props: {
@@ -34,21 +57,31 @@ export default {
   },
   components: {
     'form-box': FormBoxLayout,
-    ToggleSwitch
+    ToggleSwitch,
+    Dropdown
+  },
+  data () {
+    return {
+      isNextInTimePickerOpen: false,
+      isNextOutTimePickerOpen: false
+    }
+  },
+  computed: {
+    ...mapGetters(['currentUser'])
   },
   methods: {
     ...mapActions(['updateRemote', 'updateDisturb']),
-    onClickNextIn () {
-      window.alert('onClickNextIn')
-    },
-    onClickNextOut () {
-      window.alert('onClickNextOut')
-    },
     onClickRemote () {
       this.updateRemote(!this.user.isRemote)
     },
     onClickDoNotDisturb () {
       this.updateDisturb(!this.user.isDoNotDisturb)
+    },
+    onNextInTimeSubmit () {
+      this.isNextInTimePickerOpen = false
+    },
+    isNextOutTimeSubmit () {
+      this.isNextOutTimePickerOpen = false
     }
   }
 }
@@ -66,6 +99,31 @@ export default {
     justify-content: space-between;
     padding: 5px 10px;
     border-bottom: 1px solid black;
+    position: relative;
   }
 }
+.status-time-dropdown {
+  display: flex;
+}
+.status-time-dropdown-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.status-item-dropdown-picker-wrapper {
+  width: 100%;
+  flex: 1;
+
+  .status-item-dropdown-picker {
+    width: 100%;
+  }
+}
+
+.status-item-dropdown-button-wrapper {
+  text-align: right;
+  padding-left: 5px;
+}
+
 </style>
