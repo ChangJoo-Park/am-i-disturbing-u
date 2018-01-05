@@ -6,6 +6,7 @@
     <div class="member-info-wrapper">
       <div class="member-info">
         <div>{{ member.username }} <span v-if="member.isRemote">REMOTE</span><span v-if="member.isDoNotDisturb">Do Not Disturb</span></div>
+        <div>{{ member.nextIn }} {{ member.nextOut }}</div>
         <div>{{ member.title }}</div>
       </div>
       <badge-row :badges="member.badges" />

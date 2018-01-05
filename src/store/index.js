@@ -18,7 +18,13 @@ const types = {
   ADD_BADGE_TO_TEAM: 'ADD_BADGE_TO_TEAM',
   REMOVE_BADGE_FROM_ME: 'REMOVE_BADGE_FROM_ME',
   REMOVE_BADGE_FROM_MEMBER: 'REMOVE_BADGE_FROM_MEMBER',
-  REMOVE_BADGE_FROM_TEAM: 'REMOVE_BADGE_FROM_TEAM'
+  REMOVE_BADGE_FROM_TEAM: 'REMOVE_BADGE_FROM_TEAM',
+  UPDATE_NEXTIN: 'UPDATE_NEXTIN',
+  UPDATE_NEXTOUT: 'UPDATE_NEXTOUT',
+  UPDATE_REMOTE: 'UPDATE_REMOTE',
+  UPDATE_DISTURB: 'UPDATE_DISTURB',
+  UPDATE_MEMBER_STATUS_ME: 'UPDATE_MEMBER_STATUS_ME',
+  UPDATE_MEMBER_STATUS_MEMBER: 'UPDATE_MEMBER_STATUS_MEMBER'
 }
 
 const getHeader = () => {
@@ -42,18 +48,6 @@ export default new Vuex.Store({
     [types.SET_USER] (state, user) {
       state.user = user
     },
-    [types.SET_USER_REMOTE] (state, remote) {
-      state.user.isRemote = remote
-      const userId = state.user._id
-      const userIndex = state.user.team.members.findIndex(m => m._id === userId)
-      state.user.team.members[userIndex].isRemote = remote
-    },
-    [types.SET_USER_DISTURB] (state, disturb) {
-      state.user.isDoNotDisturb = disturb
-      const userId = state.user._id
-      const userIndex = state.user.team.members.findIndex(m => m._id === userId)
-      state.user.team.members[userIndex].isDoNotDisturb = disturb
-    },
     [types.ADD_BADGE_TO_ME] (state, badge) {
       state.user.badges.push(badge)
     },
@@ -76,6 +70,21 @@ export default new Vuex.Store({
     [types.REMOVE_BADGE_FROM_TEAM] (state, badge) {
       const index = state.user.team.badges.findIndex(b => b._id === badge._id)
       state.user.team.badges.splice(index, 1)
+    },
+    [types.UPDATE_MEMBER_STATUS_ME] (state, status) {
+      Object.keys(status).forEach(key => {
+        if (key !== 'memberId') {
+          state.user[key] = status[key]
+        }
+      })
+    },
+    [types.UPDATE_MEMBER_STATUS_MEMBER] (state, status) {
+      const userIndex = state.user.team.members.findIndex(m => m._id === status.memberId)
+      Object.keys(status).forEach(key => {
+        if (key !== 'memberId') {
+          state.user.team.members[userIndex][key] = status[key]
+        }
+      })
     }
   },
   actions: {
@@ -132,8 +141,6 @@ export default new Vuex.Store({
         console.log(error)
       }
     },
-    async fetchUserData ({ commit, getters }) {
-    },
     logout ({ commit }) {
       commit(types.SET_USER, null)
     },
@@ -155,11 +162,17 @@ export default new Vuex.Store({
         console.log(error)
       }
     },
-    async updateRemote ({ commit }, payload) {
-      commit(types.SET_USER_REMOTE, payload)
-    },
-    async updateDisturb ({ commit }, payload) {
-      commit(types.SET_USER_DISTURB, payload)
+    async updateStatus ({ commit, getters }, payload) {
+      try {
+        await axios({
+          method: 'PUT',
+          url: `/api/members/${getters.currentUser._id}/status`,
+          headers: getHeader(),
+          data: payload
+        })
+      } catch (error) {
+        console.log(error)
+      }
     },
     addBadgeByPush ({ commit, getters }, payload) {
       if (payload.owner === 'team') {
@@ -184,12 +197,20 @@ export default new Vuex.Store({
         }
         commit(types.REMOVE_BADGE_FROM_MEMBER, payload)
       }
+    },
+    updateStatusByPush ({ commit, getters }, payload) {
+      if (getters.currentUser._id === payload.memberId) {
+        commit(types.UPDATE_MEMBER_STATUS_ME, payload)
+      }
+      commit(types.UPDATE_MEMBER_STATUS_MEMBER, payload)
     }
   },
   getters: {
-    loadedTeam: state => state.user.team,
     currentUser: state => state.user,
-    teamMembers: state => state.user.team.members,
+    loadedTeam: state => state.user.team,
+    teamMembers: state => {
+      return state.user.team.members || []
+    },
     loading: state => state.loading
   }
 })

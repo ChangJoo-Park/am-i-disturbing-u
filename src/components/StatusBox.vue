@@ -3,12 +3,12 @@
     <ul class="status-list">
       <li class="status-item">
         <span class="status-item-label">Next In</span>
-        <div v-if="currentUser.nextIn" @click="isNextInTimePickerOpen = true">{{ currentUser.nextIn }}</div>
+        <div v-if="nextIn" @click="isNextInTimePickerOpen = true">{{ nextIn }}</div>
         <div v-else @click="isNextInTimePickerOpen = true">NONE</div>
         <dropdown v-if="isNextInTimePickerOpen" @away="isNextInTimePickerOpen = false">
           <form @submit.prevent="onNextInTimeSubmit" class="status-time-dropdown-form">
             <div class="status-item-dropdown-picker-wrapper">
-              <input id="time" type="time" class="status-item-dropdown-picker">
+              <input id="time" type="time" class="status-item-dropdown-picker" v-model="nextIn">
             </div>
             <div class="status-item-dropdown-button-wrapper">
               <input type="submit" value="SAVE">
@@ -18,12 +18,12 @@
       </li>
       <li class="status-item">
         <span class="status-item-label">Next Out</span>
-        <div v-if="currentUser.nextOut" @click="isNextOutTimePickerOpen = true">{{ currentUser.nextOut }}</div>
+        <div v-if="nextOut" @click="isNextOutTimePickerOpen = true">{{ nextOut }}</div>
         <div v-else @click="isNextOutTimePickerOpen = true">NONE</div>
         <dropdown v-if="isNextOutTimePickerOpen" @away="isNextOutTimePickerOpen = false">
           <form @submit.prevent="isNextOutTimeSubmit" class="status-time-dropdown-form">
             <div class="status-item-dropdown-picker-wrapper">
-              <input id="time" type="time" class="status-item-dropdown-picker">
+              <input id="time" type="time" class="status-item-dropdown-picker" v-model="nextOut">
             </div>
             <div class="status-item-dropdown-button-wrapper">
               <input type="submit" value="SAVE">
@@ -63,24 +63,47 @@ export default {
   data () {
     return {
       isNextInTimePickerOpen: false,
-      isNextOutTimePickerOpen: false
+      isNextOutTimePickerOpen: false,
+      nextIn: '',
+      nextOut: ''
     }
   },
   computed: {
     ...mapGetters(['currentUser'])
   },
+  watch: {
+    'currentUser.nextIn': function (nextIn) {
+      console.log(nextIn)
+    },
+    'currentUser.nextOut': function (nextOut) {
+      console.log(nextOut)
+    }
+  },
+  mounted () {
+    this.nextIn = this.currentUser.nextIn
+    this.nextOut = this.currentUser.nextOut
+  },
   methods: {
-    ...mapActions(['updateRemote', 'updateDisturb']),
+    ...mapActions(['updateStatus']),
     onClickRemote () {
-      this.updateRemote(!this.user.isRemote)
+      this.updateStatus({ isRemote: !this.user.isRemote })
     },
     onClickDoNotDisturb () {
-      this.updateDisturb(!this.user.isDoNotDisturb)
+      this.updateStatus({ isDoNotDisturb: !this.user.isDoNotDisturb })
     },
     onNextInTimeSubmit () {
+      console.log('onNextInTimeSubmit')
       this.isNextInTimePickerOpen = false
+      if (this.nextIn === this.currentUser.nextIn) {
+        return
+      }
+      this.updateStatus({ nextIn: this.nextIn })
     },
     isNextOutTimeSubmit () {
+      if (this.nextOut === this.currentUser.nextOut) {
+        return
+      }
+      this.updateStatus({ nextOut: this.nextOut })
       this.isNextOutTimePickerOpen = false
     }
   }

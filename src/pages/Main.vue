@@ -41,6 +41,9 @@ export default {
         case 'badge:remove':
           this.removeBadgeByPush(payload)
           break
+        case 'status:update':
+          this.updateStatusByPush(payload)
+          break
       }
     })
   },
@@ -55,7 +58,7 @@ export default {
     ...mapGetters(['loadedTeam', 'loading', 'teamMembers'])
   },
   methods: {
-    ...mapActions(['addBadgeByPush', 'removeBadgeByPush'])
+    ...mapActions(['addBadgeByPush', 'removeBadgeByPush', 'updateStatusByPush'])
   }
 }
 </script>
