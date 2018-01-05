@@ -16,7 +16,7 @@ import MasterDetailLayout from '@/layouts/MasterDetail'
 import Sidebar from '@/components/Sidebar'
 import Navigation from '@/components/Navigation'
 import MemberRow from '@/components/MemberRow'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   beforeRouteEnter (to, from, next) {
@@ -30,6 +30,20 @@ export default {
     Navigation,
     MemberRow
   },
+  mounted () {
+    const socket = this.$io.connect('localhost:8000')
+    console.log(socket)
+    socket.on('action', ({ type, payload }) => {
+      switch (type) {
+        case 'badge:add':
+          this.addBadgeByPush(payload)
+          break
+        case 'badge:remove':
+          this.removeBadgeByPush(payload)
+          break
+      }
+    })
+  },
   data () {
     return {
       user: null,
@@ -39,6 +53,9 @@ export default {
   },
   computed: {
     ...mapGetters(['loadedTeam', 'loading', 'teamMembers'])
+  },
+  methods: {
+    ...mapActions(['addBadgeByPush', 'removeBadgeByPush'])
   }
 }
 </script>

@@ -5,10 +5,12 @@ import axios from 'axios'
 import App from './App'
 import router from './router'
 import store from './store'
+import io from 'socket.io-client'
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
 Vue.prototype.$bus = new Vue()
+Vue.prototype.$io = io
 
 /* eslint-disable no-new */
 new Vue({
