@@ -12,7 +12,13 @@ const types = {
   SET_LOADING: 'SET_LOADING',
   SET_MEMBERS: 'SET_MEMBERS',
   SET_USER_REMOTE: 'SET_USER_REMOTE',
-  SET_USER_DISTURB: 'SET_USER_DISTURB'
+  SET_USER_DISTURB: 'SET_USER_DISTURB',
+  ADD_BADGE_TO_ME: 'ADD_BADGE_TO_ME',
+  ADD_BADGE_TO_MEMBER: 'ADD_BADGE_TO_MEMBER',
+  ADD_BADGE_TO_TEAM: 'ADD_BADGE_TO_TEAM',
+  REMOVE_BADGE_FROM_ME: 'REMOVE_BADGE_FROM_ME',
+  REMOVE_BADGE_FROM_MEMBER: 'REMOVE_BADGE_FROM_MEMBER',
+  REMOVE_BADGE_FROM_TEAM: 'REMOVE_BADGE_FROM_TEAM'
 }
 
 const getHeader = () => {
@@ -47,6 +53,29 @@ export default new Vuex.Store({
       const userId = state.user._id
       const userIndex = state.user.team.members.findIndex(m => m._id === userId)
       state.user.team.members[userIndex].isDoNotDisturb = disturb
+    },
+    [types.ADD_BADGE_TO_ME] (state, badge) {
+      state.user.badges.push(badge)
+    },
+    [types.ADD_BADGE_TO_MEMBER] (state, badge) {
+      const index = state.user.team.members.findIndex(m => m._id === badge.creator)
+      state.user.team.members[index].badges.push(badge)
+    },
+    [types.ADD_BADGE_TO_TEAM] (state, badge) {
+      state.user.team.badges.push(badge)
+    },
+    [types.REMOVE_BADGE_FROM_ME] (state, badge) {
+      const index = state.user.badges.findIndex(b => b._id === badge._id)
+      state.user.badges.splice(index, 1)
+    },
+    [types.REMOVE_BADGE_FROM_MEMBER] (state, badge) {
+      const memberIndex = state.user.team.members.findIndex(m => m._id === badge.creator)
+      const badgeIndex = state.user.team.members[memberIndex].badges.findIndex(b => b._id === badge._id)
+      state.user.team.members[memberIndex].badges.splice(badgeIndex, 1)
+    },
+    [types.REMOVE_BADGE_FROM_TEAM] (state, badge) {
+      const index = state.user.team.badges.findIndex(b => b._id === badge._id)
+      state.user.team.badges.splice(index, 1)
     }
   },
   actions: {
@@ -108,9 +137,12 @@ export default new Vuex.Store({
     logout ({ commit }) {
       commit(types.SET_USER, null)
     },
-    addBadgeToTeam ({ commit }, payload) {
-    },
-    addBadgeToUser ({ commit }, payload) {
+    addBadgeToStore ({ commit }, payload) {
+      if (payload.owner === 'team') {
+
+      } else {
+
+      }
     },
     async removeBadge ({ commit }, payload) {
       try {
@@ -128,6 +160,30 @@ export default new Vuex.Store({
     },
     async updateDisturb ({ commit }, payload) {
       commit(types.SET_USER_DISTURB, payload)
+    },
+    addBadgeByPush ({ commit, getters }, payload) {
+      if (payload.owner === 'team') {
+        console.log('팀 뱃지')
+        commit(types.ADD_BADGE_TO_TEAM, payload)
+      } else if (payload.owner === 'member') {
+        if (payload.creator === getters.currentUser._id) {
+          console.log('내가 만든 뱃지')
+          commit(types.ADD_BADGE_TO_ME, payload)
+        }
+        commit(types.ADD_BADGE_TO_MEMBER, payload)
+      }
+    },
+    removeBadgeByPush ({ commit, getters }, payload) {
+      if (payload.owner === 'team') {
+        console.log('팀 뱃지')
+        commit(types.REMOVE_BADGE_FROM_TEAM, payload)
+      } else if (payload.owner === 'member') {
+        if (payload.creator === getters.currentUser._id) {
+          console.log('내가 만든 뱃지')
+          commit(types.REMOVE_BADGE_FROM_ME, payload)
+        }
+        commit(types.REMOVE_BADGE_FROM_MEMBER, payload)
+      }
     }
   },
   getters: {
