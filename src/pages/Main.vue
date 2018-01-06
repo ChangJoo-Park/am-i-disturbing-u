@@ -1,5 +1,5 @@
 <template>
-  <layout v-if="loadedTeam">
+  <layout>
     <navigation slot="navigation" />
     <sidebar slot="sidebar" />
     <router-view />
@@ -10,7 +10,7 @@
 import MasterDetailLayout from '@/layouts/MasterDetail'
 import Sidebar from '@/components/Sidebar'
 import Navigation from '@/components/Navigation'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   beforeRouteEnter (to, from, next) {
@@ -46,9 +46,6 @@ export default {
       newBadge: '',
       team: null
     }
-  },
-  computed: {
-    ...mapGetters(['loadedTeam', 'loading', 'teamMembers'])
   },
   methods: {
     ...mapActions(['addBadgeByPush', 'removeBadgeByPush', 'updateStatusByPush'])

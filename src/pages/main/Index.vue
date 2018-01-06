@@ -1,6 +1,6 @@
 <template>
   <div>
-    <member-row v-for="(member, index) in teamMembers" :key="index" :member="member" />
+    <member-row v-for="(member, index) in members" :key="index" :member="member" />
   </div>
 </template>
 
@@ -13,7 +13,13 @@ export default {
     MemberRow
   },
   computed: {
-    ...mapGetters(['teamMembers'])
+    ...mapGetters(['currentUser']),
+    members () {
+      if (!this.currentUser || !this.currentUser.team || !this.currentUser.team.members) {
+        return []
+      }
+      return this.currentUser.team.members
+    }
   }
 }
 </script>

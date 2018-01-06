@@ -1,7 +1,7 @@
 <template>
-  <div class="navigation">
+  <div class="navigation" v-if="currentUser">
     <div class="logo-wrapper">
-      <a href="/app" class="team-logo">{{ loadedTeam.name }}</a>
+      <a href="/app" class="team-logo">{{ teamName }}</a>
     </div>
     <div class="navigation-actions-wrapper">
       <div class="navigation-action-search">
@@ -19,7 +19,13 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['loadedTeam'])
+    ...mapGetters(['currentUser']),
+    teamName () {
+      if (!this.currentUser || !this.currentUser.team) {
+        return ''
+      }
+      return this.currentUser.team.name
+    }
   }
 }
 </script>

@@ -208,9 +208,6 @@ export default new Vuex.Store({
   getters: {
     currentUser: state => state.user,
     loadedTeam: state => state.user.team,
-    teamMembers: state => {
-      return state.user.team.members || []
-    },
     loading: state => state.loading
   }
 })

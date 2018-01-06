@@ -1,8 +1,8 @@
 <template>
   <div class="sidebar-wrapper">
     <div class="sidebar-boxes" v-if="currentUser" >
-      <badge-box title='My Badges' :actions="myBadgeActions" :badges="currentUser.badges" />
-      <badge-box title='Team Badges' :badges="loadedTeam.badges"/>
+      <badge-box title='My Badges' :actions="myBadgeActions" :badges="userBadges" />
+      <badge-box title='Team Badges' :badges="teamBadges"/>
       <!-- Status -->
       <status-box :user="currentUser" />
       <!-- Account Box -->
@@ -32,7 +32,19 @@ export default {
     AccountBox
   },
   computed: {
-    ...mapGetters(['currentUser', 'loadedTeam'])
+    ...mapGetters(['currentUser', 'loadedTeam']),
+    userBadges () {
+      if (!this.currentUser.badges) {
+        return []
+      }
+      return this.currentUser.badges
+    },
+    teamBadges () {
+      if (!this.currentUser.team) {
+        return []
+      }
+      return this.currentUser.team.badges
+    }
   },
   data () {
     const myBadgeActions = [
