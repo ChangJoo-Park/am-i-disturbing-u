@@ -7,6 +7,8 @@ const SignUpPage = () => import(/* webpackChunkName: "auth" */ '@/pages/SignUp')
 const NotFoundPage = () => import(/* webpackChunkName: "not-found" */ '@/pages/NotFound')
 const AdminPage = () => import(/* webpackChunkName: "admin" */ '@/pages/Admin')
 const MainPage = () => import(/* webpackChunkName: "main" */ '@/pages/Main')
+const MainIndexPage = () => import(/* webpackChunkName: "main" */ '@/pages/main/Index')
+const SettingPage = () => import(/* webpackChunkName: "main" */ '@/pages/main/Setting')
 const TeamSettingPage = () => import(/* webpackChunkName: "main" */ '@/pages/TeamSetting')
 
 Vue.use(Router)
@@ -32,12 +34,23 @@ export default new Router({
     },
     {
       path: '/app',
-      name: 'main-page',
       component: MainPage,
-      beforeEnter: AuthGuard
+      beforeEnter: AuthGuard,
+      children: [
+        {
+          path: '',
+          name: 'main-app-page',
+          component: MainIndexPage
+        },
+        {
+          path: 'settings',
+          name: 'setting-page',
+          component: SettingPage
+        }
+      ]
     },
     {
-      path: '/team-settings',
+      path: 'team-settings',
       name: 'team-setting-page',
       component: TeamSettingPage
     },

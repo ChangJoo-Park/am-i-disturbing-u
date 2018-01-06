@@ -1,13 +1,8 @@
 <template>
   <layout v-if="loadedTeam">
     <navigation slot="navigation" />
-    <sidebar
-      slot="sidebar"
-      :user="user"
-    />
-    <div>
-      <member-row v-for="(member, index) in teamMembers" :key="index" :member="member" />
-    </div>
+    <sidebar slot="sidebar" />
+    <router-view />
   </layout>
 </template>
 
@@ -15,7 +10,6 @@
 import MasterDetailLayout from '@/layouts/MasterDetail'
 import Sidebar from '@/components/Sidebar'
 import Navigation from '@/components/Navigation'
-import MemberRow from '@/components/MemberRow'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -27,8 +21,7 @@ export default {
   components: {
     layout: MasterDetailLayout,
     Sidebar,
-    Navigation,
-    MemberRow
+    Navigation
   },
   mounted () {
     const socket = this.$io.connect('localhost:8000')

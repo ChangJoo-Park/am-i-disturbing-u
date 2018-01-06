@@ -29,7 +29,9 @@ export default {
         {
           name: 'Edit',
           onClick: () => {
-            window.alert('hello')
+            this.$router.push({
+              name: 'setting-page'
+            })
           }
         }
       ]
