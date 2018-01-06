@@ -30,32 +30,6 @@ export default {
   components: {
     Avatar,
     BadgeRow
-  },
-  data () {
-    return {
-      badges: [
-        {
-          body: 'Hello World',
-          type: 'text'
-        },
-        {
-          body: 'Hello World',
-          type: 'text'
-        },
-        {
-          body: 'Hello World',
-          type: 'text'
-        },
-        {
-          body: 'Hello World',
-          type: 'text'
-        },
-        {
-          body: 'Hello World',
-          type: 'text'
-        }
-      ]
-    }
   }
 }
 </script>
