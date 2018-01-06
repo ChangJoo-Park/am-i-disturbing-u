@@ -5,8 +5,11 @@
     </div>
     <div class="member-info-wrapper">
       <div class="member-info">
-        <div>{{ member.username }} <span v-if="member.isRemote">REMOTE</span><span v-if="member.isDoNotDisturb">Do Not Disturb</span></div>
-        <div>{{ member.nextIn }} {{ member.nextOut }}</div>
+        <span class="member-info-name">{{ member.username }}</span>
+        <icon name="home" color="#2c3e50" backgroundColor= "#fff" v-if="member.isRemote"/>
+        <icon name="volume_off" color="#c0392b" backgroundColor= "#fff" v-if="member.isDoNotDisturb"/>
+        <span class="member-next member-next-in" v-if="member.nextIn">{{ member.nextIn }}</span>
+        <span class="member-next member-next-out" v-if="member.nextOut">{{ member.nextOut }}</span>
         <div>{{ member.title }}</div>
       </div>
       <badge-row :badges="member.badges" />
@@ -19,6 +22,7 @@
 
 <script>
 import Avatar from '@/components/Avatar'
+import Icon from '@/components/Icon'
 import BadgeRow from '@/components/BadgeRow'
 
 export default {
@@ -29,6 +33,7 @@ export default {
   },
   components: {
     Avatar,
+    Icon,
     BadgeRow
   }
 }
@@ -42,15 +47,35 @@ export default {
   align-items: center;
   padding: 5px 10px;
 }
+
 .member-avatar-wrapper {
   flex: 0;
   margin-right: 10px;
 }
+
 .member-info-wrapper {
   flex: 1;
   margin-right: 10px;
 }
+
 .member-row-action {
   flex: 0;
+}
+
+.member-info {
+  display: flex;
+  align-items: center;
+  flex: 0;
+  min-height: 30px;
+}
+
+.member-info-name {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.member-next {
+  font-size: 14px;
+  margin-right: 5px;
 }
 </style>
