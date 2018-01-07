@@ -4,6 +4,7 @@
       <avatar :img="user.email" />
       <div class="account-info">
         <strong>{{ user.username }}</strong>
+        <span>{{ user.title }}</span>
       </div>
     </div>
   </form-box>
