@@ -174,6 +174,19 @@ export default new Vuex.Store({
         console.log(error)
       }
     },
+    async updateTeamInfomation ({ commit, getters }, payload) {
+      console.log('updaetTeamInfomation')
+      const teamId = getters.currentUser.team._id
+      await axios({
+        method: 'PUT',
+        url: `/api/teams/${teamId}`,
+        headers: getHeader(),
+        data: payload
+      })
+
+      console.log(teamId)
+      console.log(payload)
+    },
     addBadgeByPush ({ commit, getters }, payload) {
       if (payload.owner === 'team') {
         console.log('팀 뱃지')
@@ -203,6 +216,9 @@ export default new Vuex.Store({
         commit(types.UPDATE_MEMBER_STATUS_ME, payload)
       }
       commit(types.UPDATE_MEMBER_STATUS_MEMBER, payload)
+    },
+    updateTeamInfomationByPush ({ commit, getters }, payload) {
+
     }
   },
   getters: {
