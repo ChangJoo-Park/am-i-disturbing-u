@@ -39,7 +39,7 @@ export default new Router({
       children: [
         {
           path: '',
-          name: 'main-app-page',
+          name: 'main-page',
           component: MainIndexPage
         },
         {
