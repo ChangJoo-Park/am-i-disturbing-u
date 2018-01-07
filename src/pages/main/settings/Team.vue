@@ -22,22 +22,20 @@
       <fieldset>
         <legend>Invitations</legend>
         <div>
-          <input type="email" placeholder="Email">
-          <input type="text" placeholder="UserName">
+          <input type="email" placeholder="Email" v-model="newInvitation.email">
+          <input type="text" placeholder="UserName" v-model="newInvitation.username">
           <div>
             <input type="submit">
           </div>
         </div>
-        <ul>
-          <li>
-            <strong>EMAIL - USERNAME - CREATED AT</strong>
-            <div>
-              asdasdfasdfasdf.asdfasdfsdf.sdfasfsdfasdf
-            </div>
-          </li>
-        </ul>
       </fieldset>
     </form>
+    <ul>
+      <li v-for="invitation in invitations" :key="invitation._id">
+        {{ invitation.username }} - {{ invitation.email }}
+        <button @click="deleteInvitation(invitation)">x</button>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -48,7 +46,12 @@ export default {
   data () {
     return {
       teamName: '',
-      teamBadges: []
+      teamBadges: [],
+      newInvitation: {
+        email: '',
+        username: ''
+      },
+      invitations: []
     }
   },
   computed: {
@@ -62,13 +65,16 @@ export default {
       this.teamName = val
     }
   },
-  mounted () {
+  async mounted () {
     if (this.currentUser) {
       this.teamName = this.currentUser.team.name
     }
+
+    const { data: invitationsData } = await this.getInvitations()
+    this.invitations = invitationsData
   },
   methods: {
-    ...mapActions(['updateTeamInfomation']),
+    ...mapActions(['updateTeamInfomation', 'getInvitations', 'createInvitation']),
     onSubmitTeam () {
       console.log('team submit')
       this.updateTeamInfomation({
@@ -78,8 +84,15 @@ export default {
     onSubmitTeamBadges () {
       console.log('team badge submitted')
     },
-    onSubmitTeamInvitation () {
-      console.log('Team Invitation')
+    async onSubmitTeamInvitation () {
+      const { data: newInvitation } = await this.createInvitation({
+        email: this.newInvitation.email,
+        username: this.newInvitation.username
+      })
+      this.invitations.push(newInvitation)
+    },
+    async deleteInvitation (invitation) {
+      console.log('invitation => ', invitation)
     }
   }
 }

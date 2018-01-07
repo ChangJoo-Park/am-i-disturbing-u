@@ -218,7 +218,26 @@ export default new Vuex.Store({
       commit(types.UPDATE_MEMBER_STATUS_MEMBER, payload)
     },
     updateTeamInfomationByPush ({ commit, getters }, payload) {
-
+      const teamId = getters.currentUser.team._id
+      console.log(teamId)
+      // TODO:
+    },
+    getInvitations ({ commit, getters }) {
+      const teamId = getters.currentUser.team._id
+      return axios({
+        method: 'GET',
+        url: `/api/teams/${teamId}/invitations`,
+        headers: getHeader()
+      })
+    },
+    createInvitation ({ commit, getters }, payload) {
+      const teamId = getters.currentUser.team._id
+      return axios({
+        method: 'POST',
+        url: `/api/teams/${teamId}/invitations`,
+        headers: getHeader(),
+        data: payload
+      })
     }
   },
   getters: {
