@@ -15,19 +15,18 @@
     </div>
     <!-- Step 2-1 : Team Registration Form -->
     <div v-else-if="currentStep === 'JOIN_A_TEAM'" class="signup-form-wrapper">
-      <h1>Find exists team</h1>
-      <form v-if="signUpData.isTeamChecked" @submit.prevent="onSubmitTeamFind">
+      <h1>Paste invitation code</h1>
+      <form v-if="signUpData.isTeamChecked" @submit.prevent="onSubmitUserFromJoin">
         Your team is <strong>{{ signUpData.team.name }}</strong>
         <fieldset>
           <div>
-            <input type="text" placeholder="First Name">
-            <input type="text" placeholder="Last Name">
+            <input type="text" placeholder="" v-model="signUpData.account.username">
           </div>
           <div>
-            <input type="email" placeholder="Email">
+            <input type="email" placeholder="Email" v-model="signUpData.account.email">
           </div>
           <div>
-            <input type="password" placeholder="Password">
+            <input type="password" placeholder="Password" v-model="signUpData.account.password">
           </div>
           <div>
             <input type="submit">
@@ -37,7 +36,6 @@
       <form ref="team-form" @submit.prevent="onSubmitTeamFind" v-else>
         <fieldset>
           <div>
-            <input type="text" placeholder="Team Name" v-model="signUpData.team.name" minlength="3" maxlength="20">
             <input type="text" placeholder="Code" v-model="signUpData.team.inviteCode">
           </div>
           <div>
@@ -62,7 +60,7 @@
             <input type="text" placeholder="Real Name" v-model="signUpData.account.username">
           </div>
           <div>
-            <input type="email" placeholder="Email" v-model="signUpData.account.email">
+            <input type="email" placeholder="Email" v-model="signUpData.account.email" disabled>
           </div>
           <div>
             <input type="password" placeholder="Password" v-model="signUpData.account.password">
@@ -112,6 +110,7 @@ export default {
         isTeamChecked: false,
         team: {
           name: '',
+          id: '',
           inviteCode: ''
         },
         account: {
@@ -131,8 +130,24 @@ export default {
       this.signUpData.isJoinExsistsTeam = false
       this.goTo(PAGE_TYPE.CREATE_A_TEAM)
     },
-    onSubmitTeamFind () {
-      this.signUpData.isTeamChecked = true
+    async onSubmitTeamFind () {
+      try {
+        const { data: verifiedData } = await this.$http({
+          method: 'POST',
+          url: '/api/invitations/verify',
+          data: {
+            code: this.signUpData.team.inviteCode
+          }
+        })
+        const { team, teamName, username, email } = verifiedData
+        this.signUpData.team.id = team
+        this.signUpData.team.name = teamName
+        this.signUpData.account.username = username
+        this.signUpData.account.email = email
+        this.signUpData.isTeamChecked = true
+      } catch (error) {
+        console.log(error)
+      }
     },
     onSubmitTeamCreate () {
       this.signUpData.team = {
@@ -163,6 +178,21 @@ export default {
         this.goTo(PAGE_TYPE.DONE)
       } catch (error) {
         console.log(error)
+      }
+    },
+    async onSubmitUserFromJoin () {
+      try {
+        await this.$http({
+          method: 'POST',
+          url: `/api/teams/${this.signUpData.team.id}/members`,
+          data: {
+            ...this.signUpData.account,
+            code: this.signUpData.team.inviteCode
+          }
+        })
+        this.goTo(PAGE_TYPE.DONE)
+      } catch (error) {
+
       }
     },
     goTo (nextStep) {
