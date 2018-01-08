@@ -24,7 +24,8 @@ const types = {
   UPDATE_REMOTE: 'UPDATE_REMOTE',
   UPDATE_DISTURB: 'UPDATE_DISTURB',
   UPDATE_MEMBER_STATUS_ME: 'UPDATE_MEMBER_STATUS_ME',
-  UPDATE_MEMBER_STATUS_MEMBER: 'UPDATE_MEMBER_STATUS_MEMBER'
+  UPDATE_MEMBER_STATUS_MEMBER: 'UPDATE_MEMBER_STATUS_MEMBER',
+  UPDATE_TEAM: 'UPDATE_TEAM'
 }
 
 const getHeader = () => {
@@ -83,6 +84,13 @@ export default new Vuex.Store({
       Object.keys(status).forEach(key => {
         if (key !== 'memberId') {
           state.user.team.members[userIndex][key] = status[key]
+        }
+      })
+    },
+    [types.UPDATE_TEAM] (state, teamInfo) {
+      Object.keys(teamInfo).forEach(key => {
+        if (state.user.team[key]) {
+          state.user.team[key] = teamInfo[key]
         }
       })
     }
@@ -218,9 +226,8 @@ export default new Vuex.Store({
       commit(types.UPDATE_MEMBER_STATUS_MEMBER, payload)
     },
     updateTeamInfomationByPush ({ commit, getters }, payload) {
-      const teamId = getters.currentUser.team._id
-      console.log(teamId)
-      // TODO:
+      // const teamId = getters.currentUser.team._id
+      commit(types.UPDATE_TEAM, payload)
     },
     getInvitations ({ commit, getters }) {
       const teamId = getters.currentUser.team._id

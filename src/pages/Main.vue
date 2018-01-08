@@ -37,6 +37,10 @@ export default {
         case 'status:update':
           this.updateStatusByPush(payload)
           break
+        case 'team:update':
+          console.log('team updated ', payload)
+          this.updateTeamInfomationByPush(payload)
+          break
       }
     })
   },
@@ -48,7 +52,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['addBadgeByPush', 'removeBadgeByPush', 'updateStatusByPush'])
+    ...mapActions([
+      'addBadgeByPush', 'removeBadgeByPush', 'updateStatusByPush', 'updateTeamInfomationByPush'
+    ])
   }
 }
 </script>
