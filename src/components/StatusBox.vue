@@ -73,10 +73,10 @@ export default {
   },
   watch: {
     'currentUser.nextIn': function (nextIn) {
-      console.log(nextIn)
+      this.nextIn = nextIn
     },
     'currentUser.nextOut': function (nextOut) {
-      console.log(nextOut)
+      this.nextOut = nextOut
     }
   },
   mounted () {
