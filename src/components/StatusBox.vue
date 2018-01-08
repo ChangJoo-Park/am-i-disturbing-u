@@ -80,8 +80,11 @@ export default {
     }
   },
   mounted () {
-    this.nextIn = this.currentUser.nextIn
-    this.nextOut = this.currentUser.nextOut
+    if (this.currentUser) {
+      const { nextIn = '', nextOut = '' } = this.currentUser
+      this.nextIn = nextIn
+      this.nextOut = nextOut
+    }
   },
   methods: {
     ...mapActions(['updateStatus']),
