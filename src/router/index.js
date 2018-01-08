@@ -9,7 +9,6 @@ const AdminPage = () => import(/* webpackChunkName: "admin" */ '@/pages/Admin')
 const MainPage = () => import(/* webpackChunkName: "main" */ '@/pages/Main')
 const MainIndexPage = () => import(/* webpackChunkName: "main" */ '@/pages/main/Index')
 const SettingPage = () => import(/* webpackChunkName: "main" */ '@/pages/main/Setting')
-const TeamSettingPage = () => import(/* webpackChunkName: "main" */ '@/pages/TeamSetting')
 
 Vue.use(Router)
 
@@ -48,11 +47,6 @@ export default new Router({
           component: SettingPage
         }
       ]
-    },
-    {
-      path: 'team-settings',
-      name: 'team-setting-page',
-      component: TeamSettingPage
     },
     {
       path: '*',
