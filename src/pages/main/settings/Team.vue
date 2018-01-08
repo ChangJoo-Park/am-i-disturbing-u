@@ -32,8 +32,13 @@
     </form>
     <ul>
       <li v-for="invitation in invitations" :key="invitation._id">
-        {{ invitation.username }} - {{ invitation.email }}
-        <button @click="deleteInvitation(invitation)">x</button>
+        <div>
+          {{ invitation.username }} - {{ invitation.email }}
+          <button @click="deleteInvitation(invitation)">x</button>
+        </div>
+        <div>
+          {{ invitation.code }}
+        </div>
       </li>
     </ul>
   </div>
