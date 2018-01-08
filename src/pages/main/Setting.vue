@@ -1,5 +1,5 @@
 <template>
-  <div class="settings">
+  <div class="settings" v-if="currentUser">
     <div>
       <ul class="tab-list">
         <li
@@ -20,6 +20,7 @@
 <script>
 import Account from '@/pages/main/settings/Account'
 import Team from '@/pages/main/settings/Team'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -28,7 +29,7 @@ export default {
   },
   data () {
     return {
-      tabs: [
+      adminTabs: [
         {
           name: 'Account',
           id: 0,
@@ -42,7 +43,27 @@ export default {
           isActive: false
         }
       ],
+      memberTabs: [
+        {
+          name: 'Account',
+          id: 0,
+          component: Account,
+          isActive: true
+        }
+      ],
       currentTab: null
+    }
+  },
+  computed: {
+    ...mapGetters(['currentUser']),
+    tabs () {
+      if (this.currentUser) {
+        if (this.currentUser._id === this.currentUser.team.owner._id) {
+          return this.adminTabs
+        } else {
+          return this.memberTabs
+        }
+      }
     }
   },
   mounted () {
