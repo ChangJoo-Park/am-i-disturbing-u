@@ -72,10 +72,10 @@ export default {
     ...mapGetters(['currentUser'])
   },
   watch: {
-    'currentUser.nextIn': function (nextIn) {
+    'currentUser.nextIn': function (nextIn = '') {
       this.nextIn = nextIn
     },
-    'currentUser.nextOut': function (nextOut) {
+    'currentUser.nextOut': function (nextOut = '') {
       this.nextOut = nextOut
     }
   },
