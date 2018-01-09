@@ -245,6 +245,14 @@ export default new Vuex.Store({
         headers: getHeader(),
         data: payload
       })
+    },
+    deleteInvitation ({ commit, getters }, targetId) {
+      const teamId = getters.currentUser.team._id
+      return axios({
+        method: 'DELETE',
+        url: `/api/teams/${teamId}/invitations/${targetId}`,
+        headers: getHeader()
+      })
     }
   },
   getters: {

@@ -34,7 +34,7 @@
       <li v-for="invitation in invitations" :key="invitation._id">
         <div>
           {{ invitation.username }} - {{ invitation.email }}
-          <button @click="deleteInvitation(invitation)">x</button>
+          <button @click="deleteInvitation(invitation._id)">x</button>
         </div>
         <div>
           {{ invitation.code }}
@@ -79,7 +79,7 @@ export default {
     this.invitations = invitationsData
   },
   methods: {
-    ...mapActions(['updateTeamInfomation', 'getInvitations', 'createInvitation']),
+    ...mapActions(['updateTeamInfomation', 'getInvitations', 'createInvitation', 'deleteInvitation']),
     onSubmitTeam () {
       console.log('team submit')
       this.updateTeamInfomation({
@@ -96,8 +96,14 @@ export default {
       })
       this.invitations.push(newInvitation)
     },
-    async deleteInvitation (invitation) {
-      console.log('invitation => ', invitation)
+    async onClickDeleteInvitation (invitationId) {
+      try {
+        const data = await this.deleteInvitation(invitationId)
+        const targetIndex = this.invitations.findIndex(i => i._id === invitationId)
+        this.invitations.splice(targetIndex, 1)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
