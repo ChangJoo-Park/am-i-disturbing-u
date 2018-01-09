@@ -4,6 +4,7 @@ import AvatarStory from './AvatarStory.vue'
 import BadgeStory from './BadgeStory.vue'
 import LayoutStory from './LayoutStory.vue'
 import BadgeBoxStory from './BadgeBoxStory.vue'
+import PickerStory from './Picker.vue'
 import SwitchStory from './SwitchStory.vue'
 
 storiesOf('Avatar', module)
@@ -28,6 +29,12 @@ storiesOf('Switch', module)
   .add('기본 사용', () => ({
     components: { SwitchStory },
     template: '<switch-story />'
+  }))
+
+storiesOf('Picker', module)
+  .add('기본 사용', () => ({
+    components: { PickerStory },
+    template: '<picker-story />'
   }))
 
 storiesOf('Layout', module)
