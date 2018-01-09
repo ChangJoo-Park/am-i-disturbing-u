@@ -58,22 +58,33 @@ export default {
   computed: {
     ...mapGetters(['currentUser']),
     tabs () {
-      if (this.currentUser) {
+      if (this.currentUser && this.currentUser.team) {
         if (this.currentUser._id === this.currentUser.team.owner._id) {
           return this.adminTabs
         } else {
           return this.memberTabs
         }
       }
+      return []
+    }
+  },
+  watch: {
+    currentUser (val) {
+      this.currentTab = this.tabs[0]
+      this.currentTab.isActive = true
     }
   },
   mounted () {
-    this.currentTab = this.tabs[0]
-    this.currentTab.isActive = true
+    if (this.tabs && this.tabs.length > 0) {
+      this.currentTab = this.tabs[0]
+      this.currentTab.isActive = true
+    }
   },
   methods: {
     changeTab (tab) {
-      this.currentTab.isActive = false
+      if (this.currentTab) {
+        this.currentTab.isActive = false
+      }
       this.currentTab = tab
       this.currentTab.isActive = true
     }
