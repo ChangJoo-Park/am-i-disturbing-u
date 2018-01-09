@@ -12,6 +12,7 @@
       </ul>
       <div class="tab-content" v-if="currentTab">
         <component :is="currentTab.component" />
+        <button @click="$router.push({ name: 'main-page'})">Back To App</button>
       </div>
     </div>
   </div>
