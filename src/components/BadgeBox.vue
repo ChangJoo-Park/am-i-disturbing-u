@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FormBoxLayout from '../layouts/FormBox'
+import FormBoxLayout from '../layouts/FormBox.vue'
 import BadgeRow from './BadgeRow.vue'
 
 export default {
