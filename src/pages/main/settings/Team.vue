@@ -98,7 +98,7 @@ export default {
     },
     async onClickDeleteInvitation (invitationId) {
       try {
-        const data = await this.deleteInvitation(invitationId)
+        await this.deleteInvitation(invitationId)
         const targetIndex = this.invitations.findIndex(i => i._id === invitationId)
         this.invitations.splice(targetIndex, 1)
       } catch (error) {
