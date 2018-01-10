@@ -1,5 +1,8 @@
 <template>
-  <form-box :title="title" :actions="actions">
+  <form-box :title="title" :actions="actions" class="badge-box">
+    <div class="badge-box-picker">
+      <slot />
+    </div>
     <badge-row :badges="badges"/>
   </form-box>
 </template>
@@ -34,4 +37,10 @@ export default {
 </script>
 
 <style lang="scss">
+.badge-box {
+  position: relative;
+}
+
+.badge-box-picker {
+}
 </style>
