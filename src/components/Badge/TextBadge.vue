@@ -19,11 +19,10 @@ export default {
   },
   computed: {
     badgeStyles: function () {
-      if (this.badge.hasOwnProperty('color')) {
-        return {
-          backgroundColor: this.badge.backgroundColor,
-          color: this.badge.color
-        }
+       // TODO: Validator로 변경해야함
+      if (this.badge.hasOwnProperty('textColor') && this.badge.hasOwnProperty('bgColor')) {
+        const { bgColor: backgroundColor, textColor: color } = this.badge
+        return { backgroundColor, color }
       }
       return {
         backgroundColor: '#ddd',
