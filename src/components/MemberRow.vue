@@ -8,8 +8,14 @@
         <span class="member-info-name">{{ member.username }}</span>
         <icon name="home" color="#2c3e50" backgroundColor= "#fff" v-if="member.isRemote"/>
         <icon name="volume_off" color="#c0392b" backgroundColor= "#fff" v-if="member.isDoNotDisturb"/>
-        <span class="member-next member-next-in" v-if="member.nextIn">{{ member.nextIn }}</span>
-        <span class="member-next member-next-out" v-if="member.nextOut">{{ member.nextOut }}</span>
+        <span class="member-next member-next-in" v-if="member.nextIn">
+          {{ member.nextIn }}
+          <icon name="flight_land" color="#2c3e50" backgroundColor= "#fff"/>
+        </span>
+        <span class="member-next member-next-out" v-if="member.nextOut">
+          {{ member.nextOut }}
+          <icon name="flight_takeoff" color="#2c3e50" backgroundColor= "#fff"/>
+        </span>
         <div>{{ member.title }}</div>
       </div>
       <badge-row :badges="member.badges" />
@@ -76,6 +82,10 @@ export default {
 
 .member-next {
   font-size: 14px;
+  margin-left: 5px;
   margin-right: 5px;
+  border: 1px solid #333;
+  padding: 2px 3px;
+  border-radius: 3px;
 }
 </style>
