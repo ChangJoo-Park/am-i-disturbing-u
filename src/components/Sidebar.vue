@@ -1,7 +1,13 @@
 <template>
   <div class="sidebar-wrapper">
     <div class="sidebar-boxes" v-if="currentUser" >
-      <badge-box title='My Badges' :actions="myBadgeActions" :badges="userBadges" />
+      <badge-box title='My Badges' :actions="myBadgeActions" :badges="userBadges">
+        <text-picker
+          v-if="currnetOpenedPicker === pickers['user-text-badge']"
+          @onCancelClicked="currnetOpenedPicker = null"
+          @onSaveClicked="onSaveClicked"
+        />
+      </badge-box>
       <badge-box title='Team Badges' :badges="teamBadges"/>
       <!-- Status -->
       <status-box :user="currentUser" />
@@ -18,6 +24,7 @@
 import BadgeBox from '@/components/BadgeBox'
 import StatusBox from '@/components/StatusBox'
 import AccountBox from '@/components/AccountBox'
+import TextPicker from '@/components/TextPicker'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -29,7 +36,8 @@ export default {
   components: {
     BadgeBox,
     StatusBox,
-    AccountBox
+    AccountBox,
+    TextPicker
   },
   computed: {
     ...mapGetters(['currentUser', 'loadedTeam']),
@@ -60,7 +68,12 @@ export default {
     return {
       myBadges: [],
       newBadge: '',
-      myBadgeActions
+      myBadgeActions,
+      currnetOpenedPicker: null,
+      pickers: {
+        'user-text-badge': 'USER_TEXT_BADGE',
+        'user-emoji-badge': 'USER_EMOJI_BADGE'
+      }
     }
   },
   mounted () {
@@ -73,22 +86,29 @@ export default {
       window.alert('Emoji Modal')
     },
     async openTextModal () {
-      const confirmText = window.prompt('Badge 텍스트를 입력하세요')
-      if (confirmText) {
-        const Cookie = require('js-cookie')
-
-        const result = await this.$http({
-          method: 'POST',
-          url: '/api/badges',
-          headers: {authorization: Cookie.get('token')},
-          data: {
-            type: 'text',
-            owner: 'member',
-            body: confirmText
-          }
-        })
-        console.log('result => ', result)
+      if (this.currnetOpenedPicker) {
+        this.currnetOpenedPicker = null
+        return
       }
+      this.currnetOpenedPicker = this.pickers['user-text-badge']
+    },
+    async onSaveClicked ({ text, colorSet }) {
+      const Cookie = require('js-cookie')
+
+      const result = await this.$http({
+        method: 'POST',
+        url: '/api/badges',
+        headers: {authorization: Cookie.get('token')},
+        data: {
+          type: 'text',
+          owner: 'member',
+          body: text,
+          textColor: colorSet.color,
+          bgColor: colorSet.bgColor
+        }
+      })
+      this.currnetOpenedPicker = null
+      console.log('result => ', result)
     },
     // Methods for Team Badge
     // SignOut
@@ -98,7 +118,6 @@ export default {
         this.$router.replace({name: 'login-page'})
       }
     },
-    async onNewBadgeCreated () {},
     async onBadgeClicked (badge) {
       const isMine = badge.creator === this.currentUser._id && badge.owner === 'member'
       if (isMine) {
