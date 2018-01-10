@@ -79,6 +79,7 @@ export default {
 
 <style lang="scss" scoped>
 .picker {
+  background-color: #fff;
   width: 100%;
 
   .picker-actions {
